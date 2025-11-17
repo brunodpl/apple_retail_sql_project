@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Store Database Schema</title>
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+  padding: var(--space-24);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-32);
+}
+
+.header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-8);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.header p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-24);
+  margin-bottom: var(--space-32);
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-16) var(--space-24);
+  text-align: center;
+  min-width: 140px;
+}
+
+.stat-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  display: block;
+}
+
+.stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+}
+
+.diagram-container {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  margin-bottom: var(--space-24);
+  position: relative;
+  overflow-x: auto;
+}
+
+.diagram {
+  position: relative;
+  min-height: 600px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 80px 120px;
+  padding: var(--space-32);
+}
+
+.table-card {
+  background: var(--color-background);
+  border: 2px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  padding: 0;
+  position: relative;
+  z-index: 10;
+  transition: all var(--duration-normal) var(--ease-standard);
+  box-shadow: var(--shadow-sm);
+}
+
+.table-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+}
+
+.table-card.highlighted {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.table-header {
+  background: var(--color-bg-1);
+  padding: var(--space-12) var(--space-16);
+  border-bottom: 1px solid var(--color-card-border);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.table-icon {
+  font-size: var(--font-size-xl);
+}
+
+.table-name {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+}
+
+.table-body {
+  padding: var(--space-12);
+}
+
+.field {
+  padding: var(--space-6) var(--space-8);
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.field:hover {
+  background: var(--color-secondary);
+}
+
+.field-name {
+  font-family: var(--font-family-mono);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.field-type {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-family-mono);
+}
+
+.field-key {
+  margin-left: var(--space-8);
+  font-size: var(--font-size-xs);
+}
+
+.pk { color: var(--color-warning); }
+.fk { color: var(--color-primary); }
+
+.svg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.relationship-line {
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  fill: none;
+  opacity: 0.4;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.relationship-line.highlighted {
+  stroke-width: 3;
+  opacity: 1;
+  stroke: var(--color-primary-hover);
+}
+
+.relationship-label {
+  fill: var(--color-text-secondary);
+  font-size: 11px;
+  font-family: var(--font-family-base);
+  pointer-events: none;
+}
+
+.legend {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-20);
+  margin-top: var(--space-24);
+}
+
+.legend h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-16);
+  color: var(--color-text);
+}
+
+.legend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-16);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--font-size-sm);
+}
+
+.legend-symbol {
+  font-weight: var(--font-weight-bold);
+  min-width: 24px;
+}
+
+.legend-line {
+  width: 30px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 1px;
+}
+
+.sql-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  margin-top: var(--space-24);
+}
+
+.sql-section h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-16);
+  color: var(--color-text);
+}
+
+.sql-code {
+  background: var(--color-background);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-16);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  overflow-x: auto;
+  color: var(--color-text);
+  white-space: pre;
+}
+
+.sql-keyword { color: var(--color-primary); font-weight: var(--font-weight-medium); }
+.sql-type { color: var(--color-warning); }
+.sql-constraint { color: var(--color-success); }
+.sql-comment { color: var(--color-text-secondary); font-style: italic; }
+
+/* Positioning */
+.table-stores { grid-column: 1; grid-row: 1; }
+.table-category { grid-column: 2; grid-row: 1; }
+.table-products { grid-column: 3; grid-row: 1; }
+.table-sales { grid-column: 2; grid-row: 2; }
+.table-warranty { grid-column: 2; grid-row: 3; }
+
+@media (max-width: 1200px) {
+  .diagram {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+  }
+  
+  .table-stores { grid-column: 1; grid-row: 1; }
+  .table-category { grid-column: 2; grid-row: 1; }
+  .table-products { grid-column: 1; grid-row: 2; }
+  .table-sales { grid-column: 2; grid-row: 2; }
+  .table-warranty { grid-column: 1; grid-row: 3; }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: var(--space-16);
+  }
+  
+  .diagram {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .table-stores,
+  .table-category,
+  .table-products,
+  .table-sales,
+  .table-warranty {
+    grid-column: 1;
+  }
+  
+  .stats {
+    gap: var(--space-12);
+  }
+  
+  .stat-item {
+    min-width: 110px;
+    padding: var(--space-12) var(--space-16);
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Apple Store Database Schema</h1>
+            <p>Entity-Relationship Diagram</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-value">5</span>
+                <span class="stat-label">Tables</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">4</span>
+                <span class="stat-label">Relationships</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">5</span>
+                <span class="stat-label">Primary Keys</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">4</span>
+                <span class="stat-label">Foreign Keys</span>
+            </div>
+        </div>
+
+        <div class="diagram-container">
+            <svg class="svg-layer" id="relationshipsSvg"></svg>
+            <div class="diagram" id="diagram">
+                <!-- Stores Table -->
+                <div class="table-card table-stores" data-table="stores">
+                    <div class="table-header">
+                        <span class="table-icon">🏪</span>
+                        <span class="table-name">stores</span>
+                    </div>
+                    <div class="table-body">
+                        <div class="field">
+                            <span class="field-name">store_id <span class="field-key pk">🔑 PK</span></span>
+                            <span class="field-type">VARCHAR(5)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">store_name</span>
+                            <span class="field-type">VARCHAR(30)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">city</span>
+                            <span class="field-type">VARCHAR(25)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">country</span>
+                            <span class="field-type">VARCHAR(25)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Table -->
+                <div class="table-card table-category" data-table="category">
+                    <div class="table-header">
+                        <span class="table-icon">📁</span>
+                        <span class="table-name">category</span>
+                    </div>
+                    <div class="table-body">
+                        <div class="field">
+                            <span class="field-name">category_id <span class="field-key pk">🔑 PK</span></span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">category_name</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="table-card table-products" data-table="products">
+                    <div class="table-header">
+                        <span class="table-icon">📱</span>
+                        <span class="table-name">products</span>
+                    </div>
+                    <div class="table-body">
+                        <div class="field">
+                            <span class="field-name">product_id <span class="field-key pk">🔑 PK</span></span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">product_name</span>
+                            <span class="field-type">VARCHAR(35)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">category_id <span class="field-key fk">🔗 FK</span></span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">launch_date</span>
+                            <span class="field-type">DATE</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">price</span>
+                            <span class="field-type">DOUBLE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Table -->
+                <div class="table-card table-sales" data-table="sales">
+                    <div class="table-header">
+                        <span class="table-icon">💳</span>
+                        <span class="table-name">sales</span>
+                    </div>
+                    <div class="table-body">
+                        <div class="field">
+                            <span class="field-name">sale_id <span class="field-key pk">🔑 PK</span></span>
+                            <span class="field-type">VARCHAR(15)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">sale_date</span>
+                            <span class="field-type">DATE</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">store_id <span class="field-key fk">🔗 FK</span></span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">product_id <span class="field-key fk">🔗 FK</span></span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">quantity</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warranty Table -->
+                <div class="table-card table-warranty" data-table="warranty">
+                    <div class="table-header">
+                        <span class="table-icon">🛡️</span>
+                        <span class="table-name">warranty</span>
+                    </div>
+                    <div class="table-body">
+                        <div class="field">
+                            <span class="field-name">claim_id <span class="field-key pk">🔑 PK</span></span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">claim_date</span>
+                            <span class="field-type">DATE</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">sale_id <span class="field-key fk">🔗 FK</span></span>
+                            <span class="field-type">VARCHAR(15)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">repair_status</span>
+                            <span class="field-type">VARCHAR(15)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3>Legend</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="legend-symbol pk">🔑 PK</span>
+                    <span>Primary Key</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol fk">🔗 FK</span>
+                    <span>Foreign Key</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line"></div>
+                    <span>Relationship (1:N)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sql-section">
+            <h2>SQL CREATE TABLE Statements</h2>
+            <div class="sql-code" id="sqlCode"></div>
+        </div>
+    </div>
+
+    <script>
+        // Relationships data
+        const relationships = [
+            { from: 'category', to: 'products', label: '1:N' },
+            { from: 'stores', to: 'sales', label: '1:N' },
+            { from: 'products', to: 'sales', label: '1:N' },
+            { from: 'sales', to: 'warranty', label: '1:N' }
+        ];
+
+        // SQL CREATE TABLE statements
+        const sqlStatements = `<span class="sql-comment">-- Stores Table</span>
+<span class="sql-keyword">CREATE TABLE</span> stores (
+    store_id <span class="sql-type">VARCHAR</span>(5) <span class="sql-constraint">PRIMARY KEY</span>,
+    store_name <span class="sql-type">VARCHAR</span>(30) <span class="sql-constraint">NOT NULL</span>,
+    city <span class="sql-type">VARCHAR</span>(25),
+    country <span class="sql-type">VARCHAR</span>(25)
+);
+
+<span class="sql-comment">-- Category Table</span>
+<span class="sql-keyword">CREATE TABLE</span> category (
+    category_id <span class="sql-type">VARCHAR</span>(10) <span class="sql-constraint">PRIMARY KEY</span>,
+    category_name <span class="sql-type">VARCHAR</span>(20) <span class="sql-constraint">NOT NULL</span>
+);
+
+<span class="sql-comment">-- Products Table</span>
+<span class="sql-keyword">CREATE TABLE</span> products (
+    product_id <span class="sql-type">VARCHAR</span>(10) <span class="sql-constraint">PRIMARY KEY</span>,
+    product_name <span class="sql-type">VARCHAR</span>(35) <span class="sql-constraint">NOT NULL</span>,
+    category_id <span class="sql-type">VARCHAR</span>(10),
+    launch_date <span class="sql-type">DATE</span>,
+    price <span class="sql-type">DOUBLE</span>,
+    <span class="sql-constraint">FOREIGN KEY</span> (category_id) <span class="sql-constraint">REFERENCES</span> category(category_id)
+);
+
+<span class="sql-comment">-- Sales Table</span>
+<span class="sql-keyword">CREATE TABLE</span> sales (
+    sale_id <span class="sql-type">VARCHAR</span>(15) <span class="sql-constraint">PRIMARY KEY</span>,
+    sale_date <span class="sql-type">DATE</span> <span class="sql-constraint">NOT NULL</span>,
+    store_id <span class="sql-type">VARCHAR</span>(10),
+    product_id <span class="sql-type">VARCHAR</span>(10),
+    quantity <span class="sql-type">INTEGER</span> <span class="sql-constraint">NOT NULL</span>,
+    <span class="sql-constraint">FOREIGN KEY</span> (store_id) <span class="sql-constraint">REFERENCES</span> stores(store_id),
+    <span class="sql-constraint">FOREIGN KEY</span> (product_id) <span class="sql-constraint">REFERENCES</span> products(product_id)
+);
+
+<span class="sql-comment">-- Warranty Table</span>
+<span class="sql-keyword">CREATE TABLE</span> warranty (
+    claim_id <span class="sql-type">VARCHAR</span>(10) <span class="sql-constraint">PRIMARY KEY</span>,
+    claim_date <span class="sql-type">DATE</span> <span class="sql-constraint">NOT NULL</span>,
+    sale_id <span class="sql-type">VARCHAR</span>(15),
+    repair_status <span class="sql-type">VARCHAR</span>(15),
+    <span class="sql-constraint">FOREIGN KEY</span> (sale_id) <span class="sql-constraint">REFERENCES</span> sales(sale_id)
+);`;
+
+        document.getElementById('sqlCode').innerHTML = sqlStatements;
+
+        // Draw relationships
+        function drawRelationships() {
+            const svg = document.getElementById('relationshipsSvg');
+            const diagram = document.getElementById('diagram');
+            const diagramRect = diagram.getBoundingClientRect();
+            
+            svg.innerHTML = '';
+            svg.setAttribute('viewBox', `0 0 ${diagram.offsetWidth} ${diagram.offsetHeight}`);
+
+            relationships.forEach((rel, index) => {
+                const fromEl = document.querySelector(`[data-table="${rel.from}"]`);
+                const toEl = document.querySelector(`[data-table="${rel.to}"]`);
+                
+                if (!fromEl || !toEl) return;
+
+                const fromRect = fromEl.getBoundingClientRect();
+                const toRect = toEl.getBoundingClientRect();
+                
+                const fromX = fromRect.left + fromRect.width / 2 - diagramRect.left;
+                const fromY = fromRect.top + fromRect.height - diagramRect.top;
+                const toX = toRect.left + toRect.width / 2 - diagramRect.left;
+                const toY = toRect.top - diagramRect.top;
+
+                const midY = (fromY + toY) / 2;
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                const d = `M ${fromX} ${fromY} Q ${fromX} ${midY}, ${(fromX + toX) / 2} ${midY} T ${toX} ${toY}`;
+                path.setAttribute('d', d);
+                path.setAttribute('class', 'relationship-line');
+                path.setAttribute('data-from', rel.from);
+                path.setAttribute('data-to', rel.to);
+                svg.appendChild(path);
+
+                // Add label
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', (fromX + toX) / 2);
+                text.setAttribute('y', midY - 5);
+                text.setAttribute('class', 'relationship-label');
+                text.setAttribute('text-anchor', 'middle');
+                text.textContent = rel.label;
+                svg.appendChild(text);
+            });
+        }
+
+        // Hover effects
+        const tableCards = document.querySelectorAll('.table-card');
+        tableCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const tableName = this.dataset.table;
+                
+                // Highlight related tables
+                relationships.forEach(rel => {
+                    if (rel.from === tableName) {
+                        document.querySelector(`[data-table="${rel.to}"]`).classList.add('highlighted');
+                        document.querySelector(`[data-from="${rel.from}"][data-to="${rel.to}"]`).classList.add('highlighted');
+                    }
+                    if (rel.to === tableName) {
+                        document.querySelector(`[data-table="${rel.from}"]`).classList.add('highlighted');
+                        document.querySelector(`[data-from="${rel.from}"][data-to="${rel.to}"]`).classList.add('highlighted');
+                    }
+                });
+            });
+
+            card.addEventListener('mouseleave', function() {
+                document.querySelectorAll('.highlighted').forEach(el => {
+                    el.classList.remove('highlighted');
+                });
+            });
+        });
+
+        // Initial draw and redraw on resize
+        drawRelationships();
+        window.addEventListener('resize', drawRelationships);
+        
+        // Redraw after fonts load
+        document.fonts.ready.then(() => {
+            setTimeout(drawRelationships, 100);
+        });
+    </script>
+</body>
+</html>

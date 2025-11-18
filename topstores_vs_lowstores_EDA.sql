@@ -1,3 +1,12 @@
+--Paises con más ventas
+SELECT
+  st.country,
+  SUM(sa.quantity) AS total_quantity_sold
+FROM stores AS st
+LEFT JOIN sales AS sa ON st.store_id = sa.store_id
+GROUP BY st.country
+ORDER BY total_quantity_sold DESC;
+
 --Top 10 mejores tiendas
 
 SELECT
@@ -38,10 +47,12 @@ FROM stores st
 JOIN sales sa ON st.store_id = sa.store_id
 GROUP BY st.city, st.country
 ORDER BY total_sales DESC;
---Tenemos gran diferencia de ventas en Dubai, UK y Francia con el resto del mundo.
+
+--Los paises con más ventas son United States, Australia, China, Japan, UAE
+--Tenemos gran diferencia de ventas en Dubai, London y París con el resto del mundo.
 --En cambio, la mejor tienda está en Australia, despues, Japón, US, y ya despues Dubai.
 --Las peor está en francia, pero no hay ninguna ni de UK ni Dubai entre las peores.
---No observamos gran correlacción entre País-Rendimiento
+--No observamos gran correlacción entre País-Rendimiento, pero si entre Ciudad-Rendimiento(Capitales y ciudades importantes venden más)
 
 --¿Cuales tienen mas reclamaciones?
 
